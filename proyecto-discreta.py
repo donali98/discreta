@@ -14,13 +14,6 @@ def displayMenu(header, options):
             print("Opcion no valida")
     return selectedOption
 
-# displayMenu("Seleccione una opcion",["1-Dios","2-Cristo"])
-
-
-diceAmount = int(input("Ingrese la cantidad de dados: "))
-selected = displayMenu("Seleccione una accion", [
-                       "1- Probabilidad de calcular la suma", "2- Probabilidad de par", "3- Probabilidad de impar"])
-
 
 def getRightsFor(param):
     numbers = []
@@ -44,11 +37,17 @@ def calculate(which, amount):
         rights = 0
         sumato = 0
 
-        parameter = int(input("Calcular la probabilidad de que la suma sea: "))
         for i in range(0, amount):
             pivot = pivot + "1"
             limit = limit + "6"
             possibles = possibles * 6
+
+        print("Casos posibles = "+str(possibles))
+        if(possibles >= 46656):
+            print("Son demasiados casos, el programa tardaría demasiado")
+            return
+
+        parameter = int(input("Calcular la probabilidad de que la suma sea: "))
 
         iterator = int(pivot)
 
@@ -84,4 +83,18 @@ def calculate(which, amount):
     return
 
 
-calculate(selected, diceAmount)
+selected = 10
+firstTime = -1
+diceAmount = int(input("Ingrese la cantidad de dados: "))
+
+while(selected != 0):
+    if(firstTime != -1):
+        keep = displayMenu("Mantener cantidad de dados? :", ['1- Si', '2- No'])
+        if(keep == 2):
+            diceAmount = int(input("Ingrese la cantidad de dados: "))
+    selected = displayMenu("Seleccione una accion", [
+        "1- Probabilidad de calcular la suma", "2- Probabilidad de par", "3- Probabilidad de impar", "0-Salir"])
+
+    if(selected != 0):
+        calculate(selected, diceAmount)
+        firstTime = 1
